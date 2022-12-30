@@ -1,8 +1,17 @@
+USE Master
+GO
+CREATE DATABASE System_Kolejowy
+GO
+USE System_Kolejowy
+GO
+
+
+
 CREATE TABLE miasta(
   id_miasta int PRIMARY KEY IDENTITY(1,1),
   nazwa_miasta nvarchar(70) NOT NULL UNIQUE
- )
- 
+)
+GO
 
 
 CREATE TABLE stacje(
@@ -13,14 +22,14 @@ CREATE TABLE stacje(
     REFERENCES miasta(id_miasta)
     ON DELETE CASCADE
 )
-
+GO
 
 
 CREATE TABLE przewoznicy(
   kod_przewoznika varchar(5) PRIMARY KEY,
   nazwa_przewoznika nvarchar(80) NOT NULL UNIQUE
 )
-
+GO
 
 
 CREATE TABLE linie(
@@ -30,14 +39,14 @@ CREATE TABLE linie(
     REFERENCES przewoznicy(kod_przewoznika)
   	ON DELETE CASCADE
 )
-
+GO
 
 
 CREATE TABLE modele_pociagow(
   id_modelu int PRIMARY KEY IDENTITY(1,1),
   nazwa_modelu nvarchar(80) UNIQUE NOT NULL,
 )
-
+GO
 
 
 CREATE TABLE pociagi(
@@ -56,7 +65,7 @@ CREATE TABLE pociagi(
     REFERENCES linie(id_linii)
     ON DELETE NO ACTION
 )
-
+GO
 
 
 CREATE TABLE przyjazdy_i_odjazdy(
@@ -77,7 +86,7 @@ CREATE TABLE przyjazdy_i_odjazdy(
     REFERENCES pociagi(kod_przewoznika, nr_pociagu)
     ON DELETE NO ACTION
 )
-
+GO
 
 
 CREATE TABLE stacje_linii(
@@ -92,7 +101,7 @@ CREATE TABLE stacje_linii(
     REFERENCES stacje(id_stacji)
     ON DELETE CASCADE
 )
-
+GO
 
 
 CREATE TABLE kontrolerzy(
@@ -100,7 +109,7 @@ CREATE TABLE kontrolerzy(
   imie nvarchar(30) NOT NULL,
   nazwisko nvarchar(30) NOT NULL
 )
-
+GO
 
 
 CREATE TABLE kontrole(
@@ -122,7 +131,7 @@ CREATE TABLE kontrole(
     REFERENCES stacje(id_stacji)
     ON DELETE NO ACTION
 )
-
+GO
 
 
 
@@ -137,7 +146,7 @@ INSERT INTO przyjazdy_i_odjazdy VALUES (1,1,'R',42738,'14:53','15:08'),(2,1,'R',
 INSERT INTO stacje_linii VALUES (1,1,1),(1,4,2),(1,5,4),(1,6,3),(1,2,5),(2,6,2),(2,1,1),(2,3,3)
 INSERT INTO kontrolerzy VALUES('Jan','Kochanowski'),('Adam','Mickiewicz'),('Juliusz','Słowacki'),('Jan','Brzechwa')
 INSERT INTO kontrole VALUES(1,2,4,5),(1,3,4,5),(1,1,4,6),(2,1,6,3)
-
+GO
 
 
 
@@ -168,4 +177,8 @@ SELECT id_linii FROM kontrole INNER JOIN kontrolerzy on kontrole.id_kontrolera =
 
 
 DROP TABLE kontrole,kontrolerzy,przyjazdy_i_odjazdy,pociagi,modele_pociagow,stacje_linii,linie,stacje,przewoznicy,miasta
-
+GO
+USE Master
+GO
+DROP DATABASE System_Kolejowy
+GO
